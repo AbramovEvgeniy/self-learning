@@ -1,0 +1,75 @@
+*.log
+*.log.json
+target/
+
+# Idea #
+*.iml
+.idea/
+
+
+# OS #
+###################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Eclipse #
+target/
+.settings/
+.metadata/
+.project
+.classpath
+.project
+.buildpath
+
+# Maven #
+###################
+log/
+target/
+
+# Intellij #
+###################
+.idea/
+*.iml
+*.iws
+
+# NetBeans #
+###################
+nbproject/private/
+# build/
+nbbuild/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# Sublime #
+###################
+*sublime-*
+
+
+# Angular frontend
+**/logs/*
+!.gitkeep
+**/node_modules/
+**/bower_components/
+tmp
+.DS_Store
+.idea
+
+#docker local environment properties ignore
+docker/properties/
+
+#maven release plugins ignore
+release.properties
+*.releaseBackup
+*.versionsBackup
+
+application-local.yml
+
+.gradle/
+build/
+out/
