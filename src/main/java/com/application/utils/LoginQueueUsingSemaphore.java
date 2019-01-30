@@ -1,7 +1,10 @@
 package com.application.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.Semaphore;
 
+@Slf4j
 class LoginQueueUsingSemaphore {
 
     private Semaphore semaphore;
@@ -11,6 +14,7 @@ class LoginQueueUsingSemaphore {
     }
 
     boolean tryLogin() {
+        log.debug("Thread name : " + Thread.currentThread().getName());
         return semaphore.tryAcquire();
     }
 
