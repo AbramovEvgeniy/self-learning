@@ -13,9 +13,16 @@ class LoginQueueUsingSemaphore {
         semaphore = new Semaphore(slotLimit);
     }
 
-    boolean tryLogin() {
+    synchronized boolean tryLogin() {
         log.debug("Thread name : " + Thread.currentThread().getName());
-        return semaphore.tryAcquire();
+        boolean result = semaphore.tryAcquire();
+        try {
+
+            this.wait(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     void logout() {
