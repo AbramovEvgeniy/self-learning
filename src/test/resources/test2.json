@@ -1,0 +1,83 @@
+[
+  {
+    "name": "Jane",
+    "interests": [
+      {
+        "interestName": "movies"
+      },
+      {
+        "interestName": "music"
+      }
+    ]
+  },
+  {
+    "name": "Peter",
+    "interests": [
+      {
+        "interestName": "cars"
+      },
+      {
+        "interestName": "movies"
+      }
+    ]
+  },
+  {
+    "name": "Dustin",
+    "interests": [
+      {
+        "interestName": "movies"
+      },
+      {
+        "interestName": "cars"
+      },
+      {
+        "interestName": "hiking"
+      },
+      {
+        "interestName": "music"
+      }
+    ]
+  },
+  {
+    "name": "Lana",
+    "interests": [
+      {
+        "interestName": "cars"
+      },
+      {
+        "interestName": "dancing"
+      }
+    ]
+  },
+  {
+    "name": "Eugene",
+    "interests": [
+      {
+        "interestName": "hiking"
+      },
+      {
+        "interestName": "music"
+      },
+      {
+        "interestName": "dancing"
+      }
+    ]
+  },
+  {
+    "name": "Svetlana",
+    "interests": [
+      {
+        "interestName": "hiking"
+      },
+      {
+        "interestName": "music"
+      },
+      {
+        "interestName": "dancing"
+      },
+      {
+        "interestName": "games"
+      }
+    ]
+  }
+]

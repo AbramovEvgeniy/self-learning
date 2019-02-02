@@ -14,14 +14,13 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/pairs")
 @AllArgsConstructor
-public class SMCController {
+public class SMSController {
 
     private SocialMediaService socialMediaService;
 
-    @GetMapping("/pairs")
+    @GetMapping
     public ResponseEntity getPairs(){
-
-        return new ResponseEntity<>(socialMediaService, OK);
+        return new ResponseEntity<>(socialMediaService.getPairs(), OK);
     }
 
     @PostMapping
