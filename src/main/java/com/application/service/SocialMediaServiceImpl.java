@@ -2,20 +2,22 @@ package com.application.service;
 
 import com.application.model.Interest;
 import com.application.model.Person;
+import com.application.utils.Node;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SerializationUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class SocialMediaServiceImpl implements SocialMediaService {
 
-    // private Map<String, Person> personsMap = new ConcurrentHashMap();
     private List<Person> personsList = new Vector<>();
 
     @Override
@@ -25,51 +27,51 @@ public class SocialMediaServiceImpl implements SocialMediaService {
 
     @Override
     public Map<ImmutablePair<String, String>, Set<Interest>> getPairs() {
-        HashMap<ImmutablePair<String, String>, Set<Interest>> completeResult = new HashMap<>();
+        Node<ImmutablePair<String, String>> finalNode = new Node<>(null);
         HashMap<ImmutablePair<String, String>, Set<Interest>> buildPairsResult = buildPairs();
 
-        completeResult = recursion(completeResult, buildPairsResult);
+        int maxInterestsCount = maxInterestsCount(buildPairsResult);
 
-        return completeResult;
+        while (maxInterestsCount != 0) {
+            populateNode(buildPairsResult, maxInterestsCount, finalNode);
+            maxInterestsCount = maxInterestsCount - 1;
+        }
+        List<ImmutablePair<String, String>> smsList = new ArrayList<>();
+        finalNode.collectResult(smsList);
+
+        return smsList.stream().collect(Collectors.toMap(Function.identity(), buildPairsResult::get));
     }
 
-    private HashMap<ImmutablePair<String, String>, Set<Interest>> recursion(HashMap<ImmutablePair<String, String>, Set<Interest>> completeResult, HashMap<ImmutablePair<String, String>, Set<Interest>> buildPairsResult) {
-        HashMap<ImmutablePair<String, String>, Set<Interest>> intermediateResult = new HashMap<>();
-        Optional<Map.Entry<ImmutablePair<String, String>, Set<Interest>>> value = buildPairsResult.entrySet().stream()
-                .max(Comparator.comparing(entry -> entry.getValue().size()));
-        int max = value.get().getValue().size();
-//        while (max != 1) {
-            int finalMax = max;
-            Set<ImmutablePair<String, String>> maxKeyList = buildPairsResult.entrySet()
-                    .stream()
-                    .filter(entry -> entry.getValue().size() == finalMax)
-                    .map(Map.Entry::getKey)
-                    .collect(Collectors.toSet());
-            //Итерация + удаление с такими именами
-//            for (ImmutablePair<String, String> pair : maxKeyList) {
-        ImmutablePair<String, String> pair = maxKeyList.iterator().next();
-                HashMap<ImmutablePair<String, String>, Set<Interest>> clone = SerializationUtils.clone(buildPairsResult);
-                clone.keySet()
-                        .removeIf(cloneValue -> {
-                            return cloneValue.getLeft().equals(pair.getLeft()) ||
-                                    cloneValue.getLeft().equals(pair.getRight()) ||
-                                    cloneValue.getRight().equals(pair.getLeft()) ||
-                                    cloneValue.getRight().equals(pair.getRight());
-                        });
-                completeResult.put(pair, buildPairsResult.get(pair));
-//                result.putAll(clone);
-                while (clone.size() > 1) {
-                  return recursion(completeResult ,clone);
-                }
-                completeResult.putAll(clone);
-//                result.putAll(clone);
-//                if (completeResult.size() < result.size()) {
-//                    completeResult = result;
-//                }
-//            }
-//            max = max - 1;
-//        }
-        return completeResult;
+    private void populateNode(HashMap<ImmutablePair<String, String>, Set<Interest>> availablePairs,
+                              int maxInterestsCount,
+                              Node<ImmutablePair<String, String>> node) {
+
+        Set<ImmutablePair<String, String>> maxKeyList = availablePairs.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().size() == maxInterestsCount)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+
+        for (ImmutablePair<String, String> pair : maxKeyList) {
+            HashMap<ImmutablePair<String, String>, Set<Interest>> clone = SerializationUtils.clone(availablePairs);
+            HashMap<ImmutablePair<String, String>, Set<Interest>> iterationResult = new HashMap<>();
+
+            clone.keySet()
+                    .removeIf(cloneValue -> {
+                        return cloneValue.getLeft().equals(pair.getLeft()) ||
+                                cloneValue.getLeft().equals(pair.getRight()) ||
+                                cloneValue.getRight().equals(pair.getLeft()) ||
+                                cloneValue.getRight().equals(pair.getRight());
+                    });
+
+            int weight = calcWeight(availablePairs, pair);
+            Node<ImmutablePair<String, String>> childNode = new Node<>(pair, weight);
+
+            node.getChildren().add(childNode);
+            if (clone.size() >= 1) {
+                populateNode(clone, maxInterestsCount(clone), childNode);
+            }
+        }
     }
 
     private HashMap<ImmutablePair<String, String>, Set<Interest>> buildPairs() {
@@ -83,10 +85,23 @@ public class SocialMediaServiceImpl implements SocialMediaService {
                         .collect(Collectors.toSet());
                 if (!CollectionUtils.isEmpty(interests)) {
                     map.put(key, interests);
+                    log.debug("Pair is: " + key + "Interests are: " + StringUtils.join(interests));
                 }
             }
         }
         return map;
     }
 
+    private int maxInterestsCount(HashMap<ImmutablePair<String, String>, Set<Interest>> availablePairs) {
+        return availablePairs.entrySet()
+                .stream()
+                .map(Map.Entry::getValue)
+                .max(Comparator.comparing(Set::size))
+                .map(Set::size)
+                .get();
+    }
+
+    private int calcWeight(HashMap<ImmutablePair<String, String>, Set<Interest>> availablePairs, ImmutablePair<String, String> pair) {
+        return availablePairs.get(pair).size();
+    }
 }

@@ -8,4 +8,9 @@ import java.io.Serializable;
 public class Interest implements Serializable {
 
     private String interestName;
+
+    @Override
+    public String toString() {
+        return interestName;
+    }
 }

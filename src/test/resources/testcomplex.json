@@ -1,0 +1,111 @@
+[
+  {
+    "name": "Jane 1",
+    "interests": [
+      {
+        "interestName": "movies"
+      },
+      {
+        "interestName": "music"
+      }
+    ]
+  },
+  {
+    "name": "Peter 2",
+    "interests": [
+      {
+        "interestName": "cars"
+      },
+      {
+        "interestName": "movies"
+      }
+    ]
+  },
+  {
+    "name": "Dustin 3",
+    "interests": [
+      {
+        "interestName": "movies"
+      },
+      {
+        "interestName": "cars"
+      },
+      {
+        "interestName": "hiking"
+      },
+      {
+        "interestName": "music"
+      }
+    ]
+  },
+  {
+    "name": "Lana 4",
+    "interests": [
+      {
+        "interestName": "cars"
+      },
+      {
+        "interestName": "dancing"
+      }
+    ]
+  },
+  {
+    "name": "Eugene 5",
+    "interests": [
+      {
+        "interestName": "hiking"
+      },
+      {
+        "interestName": "music"
+      },
+      {
+        "interestName": "dancing"
+      }
+    ]
+  },
+  {
+    "name": "Svetlana 6",
+    "interests": [
+      {
+        "interestName": "hiking"
+      },
+      {
+        "interestName": "music"
+      },
+      {
+        "interestName": "dancing"
+      },
+      {
+        "interestName": "games"
+      },
+      {
+        "interestName": "swimming"
+      }
+    ]
+  },
+  {
+    "name": "Robot 7",
+    "interests": [
+      {
+        "interestName": "swimming"
+      },
+      {
+        "interestName": "music"
+      },
+      {
+        "interestName": "dancing"
+      },
+      {
+        "interestName": "games"
+      }
+    ]
+  },
+  {
+    "name": "Bender 8",
+    "interests": [
+      {
+        "interestName": "swimming"
+      }
+    ]
+  }
+]
