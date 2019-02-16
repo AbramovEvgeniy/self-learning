@@ -20,7 +20,8 @@ public class SMSController {
 
     @GetMapping
     public ResponseEntity getPairs(){
-        return new ResponseEntity<>(socialMediaService.getPairs(), OK);
+//        return new ResponseEntity<>(socialMediaService.getPairs(), OK);
+        return new ResponseEntity<>(OK);
     }
 
     @PostMapping

@@ -1,2 +1,7 @@
 application:
   name: Social Media Service
+spring:
+  rabbitmq:
+    addresses: localhost:5672
+    username: guest
+    password: guest
